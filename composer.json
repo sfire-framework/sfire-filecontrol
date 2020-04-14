@@ -1,0 +1,34 @@
+{
+    "name": "sfire-framework/sfire-filecontrol",
+    "description": "Working with files, images, directories, captcha and mime types",
+    "keywords": [
+        "framework",
+        "sFire",
+        "file",
+        "images",
+        "directories",
+        "captcha",
+        "mime"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Kris Kuiper",
+            "email": "kris@sfire.io"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "require": {
+        "php": ">=7.4",
+        "ext-exif": "*",
+        "ext-posix": "*",
+        "sfire-framework/sfire-store": ">=1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "sFire\\FileControl\\": "./src/"
+        }
+    }
+}
