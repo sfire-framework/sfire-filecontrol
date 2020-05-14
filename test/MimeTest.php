@@ -12,6 +12,9 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use sFire\FileControl\MimeType;
 
+/**
+ * Class MimeTest
+ */
 final class MimeTest extends TestCase {
 
 
@@ -21,9 +24,9 @@ final class MimeTest extends TestCase {
 	 */
     public function testGet(): void {
 
-        $this -> assertNull(MimeType :: get('key'));
-        MimeType :: add('key', 'value');
-        $this -> assertEquals(MimeType :: get('key'), 'value');
+        $this -> assertNull(MimeType :: getInstance() -> get('key'));
+        MimeType :: getInstance() -> add('key', 'value');
+        $this -> assertEquals(MimeType :: getInstance() -> get('key'), 'value');
     }
 
 
@@ -33,7 +36,7 @@ final class MimeTest extends TestCase {
      */
     public function testAll(): void {
 
-        MimeType :: add('key', 'value');
+        MimeType :: getInstance() -> add('key', 'value');
         $this -> assertTrue(count(MimeType::all()) > 0);
     }
 
@@ -44,8 +47,8 @@ final class MimeTest extends TestCase {
      */
     public function testSet(): void {
 
-        MimeType :: set('key', 'value');
-        $this -> assertEquals('value', MimeType :: get('key') );
+        MimeType :: getInstance() -> set('key', 'value');
+        $this -> assertEquals('value', MimeType :: getInstance() -> get('key') );
     }
 
 
@@ -55,9 +58,9 @@ final class MimeTest extends TestCase {
      */
     public function testPull(): void {
 
-        MimeType :: add('key', 'value');
-        $this -> assertEquals(MimeType :: pull('key'), 'value');
-        $this -> assertNull(MimeType :: get('key'));
+        MimeType :: getInstance() -> add('key', 'value');
+        $this -> assertEquals(MimeType :: getInstance() -> pull('key'), 'value');
+        $this -> assertNull(MimeType :: getInstance() -> get('key'));
     }
 
 
@@ -67,10 +70,11 @@ final class MimeTest extends TestCase {
      */
     public function testRemove(): void {
 
-        $this -> assertEquals('text/plain', MimeType :: get('txt') );
+        $this -> assertEquals('text/plain', MimeType :: getInstance() -> get('txt') );
         MimeType::remove('txt');
-        $this -> assertNull(MimeType :: get('txt'));
+        $this -> assertNull(MimeType :: getInstance() -> get('txt'));
     }
+
 
     /**
      * Testing existing of mime types
@@ -78,9 +82,10 @@ final class MimeTest extends TestCase {
      */
     public function testExists(): void {
 
-        MimeType :: add('key', 'value');
+        MimeType :: getInstance() -> add('key', 'value');
         $this -> assertTrue(MimeType::has('key'));
     }
+
 
     /**
      * Testing flushing all mime types
@@ -88,7 +93,7 @@ final class MimeTest extends TestCase {
      */
     public function testFlush(): void {
 
-        MimeType :: flush();
+        MimeType :: getInstance() -> flush();
         $this -> assertCount(0, MimeType::all());
     }
 }

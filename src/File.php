@@ -32,8 +32,15 @@ class File {
      * Constructor
      * @param string $file
      */
-    public function __construct(string $file) {
+    public function __construct(string $file = null) {
         $this -> file = $file;
+    }
+
+
+    public function setFile(string $file): self {
+
+        $this -> file = $file;
+        return $this;
     }
 
 
