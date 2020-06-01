@@ -1,6 +1,6 @@
 {
     "name": "sfire-framework/sfire-filecontrol",
-    "description": "Working with files, images, directories, captcha and mime types",
+    "description": "Working with files, directories and mime types",
     "homepage": "https://sfire.io",
     "keywords": [
         "framework",
