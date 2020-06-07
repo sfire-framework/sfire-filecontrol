@@ -130,7 +130,7 @@ class File {
     public function getExtension(): ?string {
 
         $info = (object) pathinfo($this -> file);
-        return $info -> extension ?? null;
+        return true === isset($info -> extension) ? strtolower($info -> extension) : null;
     }
 
 
