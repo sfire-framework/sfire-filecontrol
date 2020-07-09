@@ -15,11 +15,11 @@ use sFire\FileControl\Directory;
 final class DirectoryTest extends TestCase {
 
 
-	/**
-	 * The path to the assets folder
-	 * @var string
-	 */
-	private string $path;
+    /**
+     * The path to the assets folder
+     * @var string
+     */
+    private string $path;
 
 
     /**
@@ -29,7 +29,7 @@ final class DirectoryTest extends TestCase {
     private Directory $directory;
 
 
-	/**
+    /**
      * Constructor
      */
     public function setUp(): void {
@@ -39,22 +39,22 @@ final class DirectoryTest extends TestCase {
     }
 
 
-	/**
-	 * Testing creating a new directory
-	 * Testing if directory is readable
-	 * Testing if directory is writable
-	 * Testing if directory exists
-	 * @return void
-	 */
+    /**
+     * Testing creating a new directory
+     * Testing if directory is readable
+     * Testing if directory is writable
+     * Testing if directory exists
+     * @return void
+     */
     public function testCreatingDirectory(): void {
 
-    	$this -> assertFalse($this -> directory -> isReadable());
+        $this -> assertFalse($this -> directory -> isReadable());
         $this -> assertFalse($this -> directory -> isWritable());
         $this -> assertFalse($this -> directory -> exists());
 
-    	$this -> directory -> create();
-    	$this -> directory -> setOwner('administrator');
-    	$this -> directory -> setGroupId(1000);
+        $this -> directory -> create();
+        $this -> directory -> setOwner('administrator');
+        $this -> directory -> setGroupId(1000);
 
         $this -> assertTrue($this -> directory -> isReadable());
         $this -> assertTrue($this -> directory -> isWritable());

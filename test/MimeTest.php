@@ -18,10 +18,10 @@ use sFire\FileControl\MimeType;
 final class MimeTest extends TestCase {
 
 
-	/**
-	 * Testing retrieving mime type
-	 * @return void
-	 */
+    /**
+     * Testing retrieving mime type
+     * @return void
+     */
     public function testGet(): void {
 
         $this -> assertNull(MimeType :: getInstance() -> get('key'));

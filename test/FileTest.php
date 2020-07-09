@@ -15,11 +15,11 @@ use sFire\FileControl\File;
 final class FileTest extends TestCase {
 
 
-	/**
-	 * The path to the assets folder
-	 * @var string
-	 */
-	private string $path;
+    /**
+     * The path to the assets folder
+     * @var string
+     */
+    private string $path;
 
 
     /**
@@ -29,7 +29,7 @@ final class FileTest extends TestCase {
     private File $file;
 
 
-	/**
+    /**
      * Constructor
      */
     public function setUp(): void {
@@ -40,22 +40,22 @@ final class FileTest extends TestCase {
     }
 
 
-	/**
-	 * Testing creating a new file
-	 * Testing if file is readable
-	 * Testing if file is writable
-	 * Testing if file exists
-	 * @return void
-	 */
+    /**
+     * Testing creating a new file
+     * Testing if file is readable
+     * Testing if file is writable
+     * Testing if file exists
+     * @return void
+     */
     public function testCreatingFile(): void {
 
-    	$this -> assertFalse($this -> file -> isReadable());
+        $this -> assertFalse($this -> file -> isReadable());
         $this -> assertFalse($this -> file -> isWritable());
         $this -> assertFalse($this -> file -> exists());
 
-    	$this -> file -> create();
-    	$this -> file -> setOwner('administrator');
-    	$this -> file -> setGroupId(1000);
+        $this -> file -> create();
+        $this -> file -> setOwner('administrator');
+        $this -> file -> setGroupId(1000);
 
         $this -> assertTrue($this -> file -> isReadable());
         $this -> assertTrue($this -> file -> isWritable());

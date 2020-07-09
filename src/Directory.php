@@ -28,7 +28,7 @@ class Directory {
      * Contains the types of elements that should be returned
      * @var string
      */
-	public const TYPE_ARRAY   = 'array';
+    public const TYPE_ARRAY   = 'array';
     public const TYPE_JSON 	  = 'json';
     public const TYPE_OBJECT  = 'object';
     public const TYPE_DEFAULT = 'default';
@@ -41,13 +41,13 @@ class Directory {
     private ?string $directory = null;
 
 
-	/**
-	 * Constructor
-	 * @param string $directory The path to the directory
-	 */
-	public function __construct(string $directory) {
-	    $this -> directory = rtrim($directory, DIRECTORY_SEPARATOR);
-	}
+    /**
+     * Constructor
+     * @param string $directory The path to the directory
+     */
+    public function __construct(string $directory) {
+        $this -> directory = rtrim($directory, DIRECTORY_SEPARATOR);
+    }
 
 
     /**
@@ -344,48 +344,48 @@ class Directory {
      * @return bool Returns true on success, false otherwise
      * @throws RuntimeException
      */
-	public function move(string $directory): bool {
+    public function move(string $directory): bool {
 
         //Check if new directory exists and is a directory and not a file
-		if(false === is_dir($directory)) {
-			throw new RuntimeException(sprintf('Directory "%s" passed to %s is not an existing directory', $directory, __METHOD__));
-		}
+        if(false === is_dir($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" passed to %s is not an existing directory', $directory, __METHOD__));
+        }
 
-		//Check if new directory is writable
-		if(false === is_writable($directory)) {
-			throw new RuntimeException(sprintf('Directory "%s" passed to %s is not writable', $directory, __METHOD__));
-		}
+        //Check if new directory is writable
+        if(false === is_writable($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" passed to %s is not writable', $directory, __METHOD__));
+        }
 
-		//Add directory separator to directory
-		$directory = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        //Add directory separator to directory
+        $directory = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-		if(false !== $this -> exists()) {
+        if(false !== $this -> exists()) {
 
-			if(@rename($this -> getPath(), $directory . $this -> getName())) {
+            if(@rename($this -> getPath(), $directory . $this -> getName())) {
 
-			    $this -> directory = $directory . $this -> getName();
-			    return true;
-			}
-		}
+                $this -> directory = $directory . $this -> getName();
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 
-	/**
-	 * Deletes the current directory with content
-	 * @return self
-	 */
-	public function delete(): self {
+    /**
+     * Deletes the current directory with content
+     * @return self
+     */
+    public function delete(): self {
 
-		if(false !== $this -> exists()) {
+        if(false !== $this -> exists()) {
 
-		    $this -> purge($this -> getPath());
+            $this -> purge($this -> getPath());
             @rmdir($this -> getPath());
-		}
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
 
     /**
@@ -393,37 +393,37 @@ class Directory {
      * @param string $directory A new parent directory for the content of the current directory
      * @return self
      */
-	public function copy(string $directory): self {
+    public function copy(string $directory): self {
 
-		//Copy recursively the directory and files
-		if(false !== $this -> exists()) {
-			$this -> recursiveCopy($this -> directory, $directory);
-		}
+        //Copy recursively the directory and files
+        if(false !== $this -> exists()) {
+            $this -> recursiveCopy($this -> directory, $directory);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
 
-	/**
-	 * Renames the current directory
-	 * @param string $name The new name for the current directory
-	 * @return bool Returns true on success, false otherwise
-	 */
-	public function rename(string $name): bool {
+    /**
+     * Renames the current directory
+     * @param string $name The new name for the current directory
+     * @return bool Returns true on success, false otherwise
+     */
+    public function rename(string $name): bool {
 
-		if(false !== $this -> exists()) {
+        if(false !== $this -> exists()) {
 
-		    $path = $this -> getBasePath() . DIRECTORY_SEPARATOR . $name;
+            $path = $this -> getBasePath() . DIRECTORY_SEPARATOR . $name;
 
-			if(@rename($this -> directory, $path)) {
+            if(@rename($this -> directory, $path)) {
 
-			    $this -> directory = $path;
+                $this -> directory = $path;
                 return true;
-			}
-		}
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 
     /**
@@ -433,95 +433,95 @@ class Directory {
     public function clear(): self {
 
         $this -> purge($this -> directory);
-	    return $this;
+        return $this;
     }
 
 
-	/**
-	 * Creates recursively (if necessary) new directory
-	 * @param int $mode The permission (chmod) level. Will be ignored on Windows
-	 * @return bool True if all directories could be created, false if not
-	 */
-	public function create(int $mode = 0777): bool {
+    /**
+     * Creates recursively (if necessary) new directory
+     * @param int $mode The permission (chmod) level. Will be ignored on Windows
+     * @return bool True if all directories could be created, false if not
+     */
+    public function create(int $mode = 0777): bool {
 
-		$paths = explode(DIRECTORY_SEPARATOR, $this -> directory);
-		$build = '';
+        $paths = explode(DIRECTORY_SEPARATOR, $this -> directory);
+        $build = '';
 
-		foreach($paths as $path) {
+        foreach($paths as $path) {
 
-			$build .= $path . DIRECTORY_SEPARATOR;
+            $build .= $path . DIRECTORY_SEPARATOR;
 
-			if(false === @is_dir($build)) {
+            if(false === @is_dir($build)) {
 
-			    if(false === @mkdir($build, $mode)) {
-			        return false;
+                if(false === @mkdir($build, $mode)) {
+                    return false;
                 }
-			}
-		}
+            }
+        }
 
-		return true;
-	}
-
-
-	/**
-	 * Changes the current directory permissions level
-	 * @param int|string $mode i.e. 755, 0755, u+rwx,go+rx
-	 * @return bool Returns true if current directory has successfully changed file mode, otherwise false
-	 */
-	public function chmod($mode): bool {
-
-		if(false !== $this -> exists()) {
-			return chmod($this -> getPath(), $mode);
-		}
-
-		return false;
-	}
+        return true;
+    }
 
 
-	/**
-	 * Changes the owner of the current directory
-	 * @param int $userId The id of the user
-	 * @return bool Returns true if current directory has successfully changed owner, otherwise false
-	 */
-	public function chown(int $userId): bool {
+    /**
+     * Changes the current directory permissions level
+     * @param int|string $mode i.e. 755, 0755, u+rwx,go+rx
+     * @return bool Returns true if current directory has successfully changed file mode, otherwise false
+     */
+    public function chmod($mode): bool {
 
-		if(false !== $this -> exists()) {
-			return chown($this -> directory, (int) $userId);
-		}
+        if(false !== $this -> exists()) {
+            return chmod($this -> getPath(), $mode);
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 
-	/**
-	 * Copies all contents of directory to an existing directory
-	 * @param string $source The source directory
-	 * @param string $destination The destination directory
-	 * @return void
-	 */
-	private function recursiveCopy(string $source, string $destination): void {
+    /**
+     * Changes the owner of the current directory
+     * @param int $userId The id of the user
+     * @return bool Returns true if current directory has successfully changed owner, otherwise false
+     */
+    public function chown(int $userId): bool {
 
-		if(false === is_dir($destination)) {
-			(new Directory($destination)) -> create();
-		}
+        if(false !== $this -> exists()) {
+            return chown($this -> directory, (int) $userId);
+        }
 
-	    $directory = opendir($source);
-	    
-	    while(false !== ($file = readdir($directory))) {
+        return false;
+    }
 
-	        if(false === in_array($file, ['.', '..'])) {
 
-	            if(is_dir($source . DIRECTORY_SEPARATOR . $file) ) { 
-	                $this -> recursiveCopy($source . DIRECTORY_SEPARATOR . $file, $destination . DIRECTORY_SEPARATOR . $file);
-	            } 
-	            else { 
-	                copy($source . DIRECTORY_SEPARATOR . $file, $destination . DIRECTORY_SEPARATOR . $file); 
-	            } 
-	        } 
-	    } 
+    /**
+     * Copies all contents of directory to an existing directory
+     * @param string $source The source directory
+     * @param string $destination The destination directory
+     * @return void
+     */
+    private function recursiveCopy(string $source, string $destination): void {
 
-	    closedir($directory); 
-	}
+        if(false === is_dir($destination)) {
+            (new Directory($destination)) -> create();
+        }
+
+        $directory = opendir($source);
+
+        while(false !== ($file = readdir($directory))) {
+
+            if(false === in_array($file, ['.', '..'])) {
+
+                if(is_dir($source . DIRECTORY_SEPARATOR . $file) ) {
+                    $this -> recursiveCopy($source . DIRECTORY_SEPARATOR . $file, $destination . DIRECTORY_SEPARATOR . $file);
+                }
+                else {
+                    copy($source . DIRECTORY_SEPARATOR . $file, $destination . DIRECTORY_SEPARATOR . $file);
+                }
+            }
+        }
+
+        closedir($directory);
+    }
 
 
     /**
